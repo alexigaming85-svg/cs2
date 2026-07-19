@@ -7,7 +7,8 @@
     "port": { "type": "integer", "desc": "What port to bind the server to", "display": "Port", "required": true, "value": 27015 },
     "hostname": { "type": "string", "desc": "Hostname for server.", "display": "Hostname", "required": true, "value": "My CS2 Server" },
     "game_alias": { "type": "string", "desc": "competitive, wingman, casual, deathmatch, custom", "display": "Game Mode", "required": true, "value": "competitive" },
-    "map": { "type": "string", "desc": "Map to load by default", "display": "Map", "required": true, "value": "de_mirage" },
+    "map": { "type": "string", "desc": "Fallback map (only used if Workshop Map ID is empty)", "display": "Map", "required": true, "value": "de_mirage" },
+    "workshop_map": { "type": "string", "desc": "Steam Workshop map ID to load on startup (e.g. fy_iceworld = 3070238628). Leave empty to use the Map field instead.", "display": "Workshop Map ID", "required": false, "value": "3070238628" },
     "maxplayers": { "type": "integer", "desc": "Maximum number of players on the server", "display": "Maxplayers", "required": true, "value": "64" }
   },
   "install": [
@@ -17,7 +18,7 @@
   ],
   "run": {
     "stop": "quit",
-    "command": "./game/bin/linuxsteamrt64/cs2 -dedicated -ip ${ip} -port ${port} -maxplayers ${maxplayers} +hostname \"${hostname}\" +game_alias ${game_alias} +map ${map}",
+    "command": "./game/bin/linuxsteamrt64/cs2 -dedicated -ip ${ip} -port ${port} -maxplayers ${maxplayers} +hostname \"${hostname}\" +game_alias ${game_alias} +host_workshop_map ${workshop_map}",
     "workingDirectory": "",
     "pre": [],
     "post": [],
