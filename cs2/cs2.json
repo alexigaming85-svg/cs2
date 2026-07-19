@@ -2,17 +2,18 @@
   "name": "cs2",
   "display": "Counter Strike 2",
   "type": "srcds",
+  "data": {
+    "ip": { "type": "string", "desc": "What IP to bind the server to", "display": "IP", "required": true, "value": "0.0.0.0" },
+    "port": { "type": "integer", "desc": "What port to bind the server to", "display": "Port", "required": true, "value": 27015 },
+    "hostname": { "type": "string", "desc": "Hostname for server.", "display": "Hostname", "required": true, "value": "My CS2 Server" },
+    "game_alias": { "type": "string", "desc": "competitive, wingman, casual, deathmatch, custom", "display": "Game Mode", "required": true, "value": "competitive" },
+    "map": { "type": "string", "desc": "Map to load by default", "display": "Map", "required": true, "value": "de_mirage" },
+    "maxplayers": { "type": "integer", "desc": "Maximum number of players on the server", "display": "Maxplayers", "required": true, "value": "64" }
+  },
   "install": [
-    {
-      "appId": "730",
-      "type": "steamgamedl"
-    },
-    {
-      "commands": [
-        "chmod +x ./game/bin/linuxsteamrt64/cs2"
-      ],
-      "type": "command"
-    }
+    { "if": "env == 'host'", "type": "steamgamedl", "appId": "730" },
+    { "if": "env == 'docker'", "type": "command", "commands": [ "steamcmd +force_install_dir /pufferpanel +login anonymous +app_update 730 +quit" ] },
+    { "type": "command", "commands": [ "chmod +x ./game/bin/linuxsteamrt64/cs2" ] }
   ],
   "run": {
     "stop": "quit",
@@ -22,60 +23,10 @@
     "post": [],
     "environmentVars": {}
   },
-  "data": {
-    "ip": {
-      "type": "string",
-      "desc": "What IP to bind the server to",
-      "display": "IP",
-      "required": true,
-      "value": "0.0.0.0"
-    },
-    "port": {
-      "type": "integer",
-      "desc": "What port to bind the server to",
-      "display": "Port",
-      "required": true,
-      "value": 27015
-    },
-    "hostname": {
-      "type": "string",
-      "desc": "Hostname for server.",
-      "display": "Hostname",
-      "required": true,
-      "value": "My CS2 Server"
-    },
-    "game_alias": {
-      "type": "string",
-      "desc": "More details about the game modes for the server you can see <a href=\"https://developer.valvesoftware.com/wiki/Counter-Strike_2/Dedicated_Servers#Game_Modes_.26_Types\" target=\"_blank\">here</a> (competitive, wingman, casual, deathmatch, custom)",
-      "display": "Game Mode",
-      "required": true,
-      "value": "competitive"
-    },
-    "map": {
-      "type": "string",
-      "desc": "Map to load by default (The current and official list of maps is <a href=\"https://developer.valvesoftware.com/wiki/Counter-Strike_2/Maps#Current_Maps\" target=\"_blank\">here</a>)",
-      "display": "Map",
-      "required": true,
-      "value": "de_mirage"
-    },
-    "maxplayers": {
-      "type": "integer",
-      "desc": "Maximum number of players on the server",
-      "display": "Maxplayers",
-      "required": true,
-      "value": "64"
-    }
-  },
-  "environment": {
-    "type": "tty"
-  },
+  "environment": { "type": "host" },
   "supportedEnvironments": [
-    {
-      "type": "tty"
-    }
+    { "type": "host" },
+    { "type": "docker", "image": "steamcmd/steamcmd:ubuntu-22", "portBindings": [ "0.0.0.0:${port}:${port}/tcp", "0.0.0.0:${port}:${port}/udp" ] }
   ],
-  "requirements": {
-    "os": "linux",
-    "arch": "amd64"
-  }
+  "requirements": { "os": "linux", "arch": "amd64" }
 }
