@@ -14,7 +14,8 @@
   "install": [
     { "if": "env == 'host'", "type": "steamgamedl", "appId": "730" },
     { "if": "env == 'docker'", "type": "command", "commands": [ "steamcmd +force_install_dir /pufferpanel +login anonymous +app_update 730 +quit" ] },
-    { "type": "command", "commands": [ "chmod +x ./game/cs2.sh", "chmod +x ./game/bin/linuxsteamrt64/cs2" ] }
+    { "type": "command", "commands": [ "chmod +x ./game/cs2.sh", "chmod +x ./game/bin/linuxsteamrt64/cs2" ] },
+    { "type": "command", "commands": [ "mkdir -p /pufferpanel/.steam/sdk64", "ln -sf /pufferpanel/.local/share/Steam/steamcmd/linux64/steamclient.so /pufferpanel/.steam/sdk64/steamclient.so" ] }
   ],
   "run": {
     "stop": "quit",
