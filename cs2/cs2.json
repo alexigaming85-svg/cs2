@@ -14,12 +14,12 @@
   "install": [
     { "if": "env == 'host'", "type": "steamgamedl", "appId": "730" },
     { "if": "env == 'docker'", "type": "command", "commands": [ "steamcmd +force_install_dir /pufferpanel +login anonymous +app_update 730 +quit" ] },
-    { "type": "command", "commands": [ "chmod +x ./game/bin/linuxsteamrt64/cs2" ] }
+    { "type": "command", "commands": [ "chmod +x ./game/cs2.sh", "chmod +x ./game/bin/linuxsteamrt64/cs2" ] }
   ],
   "run": {
     "stop": "quit",
-    "command": "./game/bin/linuxsteamrt64/cs2 -dedicated -ip ${ip} -port ${port} -maxplayers ${maxplayers} +hostname \"${hostname}\" +game_alias ${game_alias} +host_workshop_map ${workshop_map}",
-    "workingDirectory": "",
+    "command": "./cs2.sh -dedicated -ip ${ip} -port ${port} -maxplayers ${maxplayers} +hostname \"${hostname}\" +game_alias ${game_alias} +host_workshop_map ${workshop_map}",
+    "workingDirectory": "game",
     "pre": [],
     "post": [],
     "environmentVars": {}
